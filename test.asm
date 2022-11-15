@@ -145,3 +145,126 @@
 		syscall
 		li $v0,10
 		syscall
+
+
+//ex 2 4 b
+
+
+
+
+.data
+	tab: .space 5
+	message_1: .asciiz "le tableux avant le tri est :  5 3 1 2 4 \n"
+	message_2: .asciiz "le tableux apres le tri est : "
+.text	
+	la $a0,message_1
+	li $v0,4
+	syscall
+		
+
+	la $a0,tab
+	
+	# initialiser le tableux.
+	li $s2,5
+	
+	li $t0,5
+	sw $t0,0($a0)
+	
+	li $t0,3
+	sw $t0,4($a0)
+	
+	li $t0,1
+	sw $t0,8($a0)
+	
+	li $t0,2
+	sw $t0,12($a0)
+	
+	li $t0,4
+	sw $t0,16($a0)
+	#initialisation terminer.
+	
+	move $t1,$a0
+	main: 
+		addi $sp,$sp,-4
+		sw $ra,0($sp)
+		jal sort
+		lw $ra,0($sp)
+		addi $sp,$sp,4
+		jr $ra
+	
+	swap:
+		addi $sp,$sp,-4
+		sw $ra,0($sp)
+		sll $t3,$a1,2
+		add $t1,$a0,$t3
+		lw $s3,0($t1)
+		lw $t2,4($t1)
+		sw $t2,0($t1)
+		sw $t3,4($t1)
+		lw $ra,0($sp)
+		addi $sp,$sp,4
+		jr $ra
+		
+	sort:
+		addi $sp,$sp,-8
+		sw $ra,0($sp)
+		sw $a1,4($sp)
+		add $s0,$0,$0
+		
+	
+	
+	forOut:
+		slt $t0,$s0,$a1
+		beq $t0,$0,exitOut
+		addi $s1,$s0,-1
+		add $s2,$a1,$0
+	forIn:
+		slt $t0,$s1,$s2
+		bne $t0,$0,exitIn
+		sll $t2,$s1,2
+		add $t1,$a0,$t2
+		lw $t4,0($t1)
+		lw $t3,4($t1)
+		slt $t0,$t3,$t4
+		beq $t0,$0,exitIn
+		add $a0,$s1,$0
+		jal swap
+		addi $s1,$1,1
+		j forIn
+	
+	
+		
+	exitIn:
+		addi $s0,$s0,1
+		j forOut
+	exitOut:
+		lw $ra,0($sp)
+		addi $sp,$sp,8
+		jr $ra	
+		
+			
+	
+		la $a0,message_2
+		li $v0,4
+		syscall
+		
+		lw $a0,0($t1)
+		li $v0,1
+		syscall
+		
+		lw $a0,4($t1)
+		li $v0,1
+		syscall
+		lw $a0,8($t1)
+		li $v0,1
+		syscall
+		lw $a0,12($t1)
+		li $v0,1
+		syscall
+		lw $a0,16($t1)
+		li $v0,1
+		syscall
+		li $v0,10
+		syscall
+	
+		
