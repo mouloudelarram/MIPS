@@ -1,0 +1,88 @@
+//TP2 - EX 1
+
+.data
+.text
+	li $s1, 5
+	li $s2, 2
+	li $s3, 0
+	prod:
+		beq $s2,$zero, fin
+		add $s3,$s3,$s1
+		addi $s2,$s2,-1
+		j prod
+	fin:
+	
+
+//EX 2
+
+
+.text
+	li $s1,15
+	li $s2,34
+	li $s3,0
+	li $s4,0
+	quts:
+		blt $s1, $s2, fin
+		sub $s1,$s1,$s2
+		addi $s3,$s3,1
+		j quts
+	fin:
+		add $s4,$s1,$zero 
+		
+
+//Ex 3 
+.text
+ 	li $s1, 9		#varaible a caluler
+ 	li $s3, 1		#resultat
+ 	add $s3, $s1, $zero	
+ 	add $t0, $s1, $zero	#stocker la valeur s1 en t0
+ 	li $t2,1		#pour les instruction conditionelle
+ 	fact:
+ 		ble $t0, $t2 ,fin	#si t0 <= 1 fin
+ 		addi $t0, $t0, -1	#i--
+ 		add $t1, $t0, $zero	#charger la valeur de s1(t0) en t1
+ 		add $s1, $s3, $zero	#le s1 doit changer a chaque fois
+ 		mult:
+ 			beq $t1, $t2, fact	
+ 			add $s3, $s3, $s1
+ 			addi $t1, $t1, -1
+ 			j mult 	
+ 	fin:
+ 	
+ 	li $v0,1
+ 	add $a0, $s3, $zero
+ 	syscall
+ 	
+
+//Ex 4
+.data # segment de donnees
+	tab0: .word 1,4,3,7,2
+	tail0: .word 5
+	tab1: .word 4,2,5,6,1,7
+	tail1: .word 6
+.text # segment texte
+.globl main
+main: 
+	la $a0, tab0 # a0 = adresse referencee par tab0
+	la $a1, tab1
+	lw $a2, tail0 # a2 = valeur stockee a l’adresse
+# referencee par tail0
+	lw $a3, tail1
+	sll $a2, $a2, 2 # 1re ligne du code TD2.2
+	sll $a3, $a3, 2
+	add $v0, $zero, $zero
+	add $t0, $zero, $zero
+out: 	add $t4, $a0, $t0
+	lw $t4, 0($t4)
+	add $t1, $zero, $zero
+int: 	add $t3, $a1, $t1
+	lw $t3, 0($t3)
+	bne $t3, $t4, skip
+	addi $v0, $v0, 1
+skip: 	addi $t1, $t1, 4
+	bne $t1, $a3, int
+	addi $t0, $t0, 4
+	bne $t0, $a2, out
+	
+	
+	

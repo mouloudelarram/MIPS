@@ -1,0 +1,61 @@
+//TD2 
+//EX 1 : a
+
+.data 
+	tab: .space 40
+.text
+	li $t0,10
+	la $s6, tab
+	loop:
+		beq $t0, $0, fin
+		sw $t0, ($s6)
+		addi $s6,$s6,4
+		addi $t0,$t0,-1
+		j loop
+	fin:
+
+
+# l'exesrcice commence ici:
+	la $s6,tab
+	li $s5,3
+	while:
+		lw $t0, ($s6)
+		addi $s6,$s6,4
+		beq $t0, $s5, stop
+		addi $s3,$s3,1
+		j while
+	stop:
+		
+
+
+//Ex 1 : b
+
+.data 
+	v: .space 40
+	n: .word 10
+.text
+	li $s3, 0
+	for1:
+		slt $t0,$s3,$s2
+		beq $t0,$s0,stop1
+		addi $s4,$s3,-1
+		for2:
+			slt $t0,$s4,$0
+			bne $t0,$0,stop2
+			sll $t1,$s4,2
+			add $t2,$s6,$s1
+			lw $t3,0($t2)
+			lw $t4,4($t2)
+			slt $t0,$t4,$t3
+			beq $t0,$0,stop2
+			add $s5,$t3,$0
+			add $t2,$t4,$0
+			add $t4,$s5,$0
+			sw $t3,0($t2)
+			sw $t4,4($t2)
+			addi $s4,$s4,-1
+			j for2
+	stop2: 
+		addi $s3,$s3,1
+		j for1
+	stop1:	

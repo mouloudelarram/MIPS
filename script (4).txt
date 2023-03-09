@@ -1,0 +1,30 @@
+
+Le deuxième programme peut exécuter plus rapidement que le premier programme en raison de la manière dont les données sont stockées en mémoire et accédées par le processeur. Les processeurs utilisent des caches pour stocker temporairement des données fréquemment utilisées afin de les rendre plus rapidement disponibles pour les instructions suivantes.
+
+Dans le premier programme, les boucles sont définies de manière à parcourir d'abord toutes les colonnes pour une ligne donnée, puis toutes les lignes pour la colonne suivante. Cela signifie que les données sont stockées en mémoire de manière à ce que les données d'une colonne soient consécutives. Cela peut entraîner un accès aux données moins efficace, car le processeur peut avoir besoin de charger de nouvelles données en mémoire à chaque fois qu'il accède à une nouvelle colonne.
+
+Dans le deuxième programme, les boucles sont définies de manière à parcourir d'abord toutes les lignes pour une colonne donnée, puis toutes les colonnes pour la ligne suivante. Cela signifie que les données sont stockées en mémoire de manière à ce que les données d'une ligne soient consécutives. Cela peut entraîner un accès aux données plus efficace, car le processeur peut être en mesure de charger un groupe de données en mémoire et de les utiliser pour plusieurs accès consécutifs.
+
+En résumé, le deuxième programme peut exécuter plus rapidement que le premier programme car il utilise une stratégie d'accès aux données qui profite davantage des avantages des caches pour un accès plus rapide aux données.
+
+Soit N = M = 100.
+----------------------------------------------------------------------------------------------------------
+On compile le programme en ex5_1.c avec la commande : gcc ex5_1.c -o ex5_1 -Wall (sans l'option -O3 ).
+On l'execute avec : time ./ex5_1
+On aura comme resultat :
+
+real 0m0, 005s
+user 0m0, 004s
+sys  0m0, 000s
+
+-----------------------------------------------------------------------------------------------------------
+
+On compile le programme en ex5_2.c avec la commande : gcc ex5_2.c -o ex5_2 -Wall (sans l'option -O3 ).
+On l'execute avec : time ./ex5_2
+On aura comme resultat :
+
+real 0m0, 004s
+user 0m0, 003s
+sys  0m0, 000s
+
+------------------------------------------------------------------------------------------------------------

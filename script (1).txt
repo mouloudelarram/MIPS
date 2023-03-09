@@ -1,0 +1,171 @@
+//TD3 EX 1 - a 
+
+
+.data 
+	message: .asciiz "entre un entier: "
+.text
+	la $a0,message
+	li $v0,4
+	syscall
+	li $v0,5
+	syscall
+	add $s0,$s0,$v0
+	
+	la $a0,message
+	li $v0,4
+	syscall
+	li $v0,5
+	syscall
+	add $s0,$s0,$v0
+	
+	la $a0,message
+	li $v0,4
+	syscall
+	li $v0,5
+	syscall
+	add $s0,$s0,$v0
+	
+	move $a0, $s0
+	li $v0,1
+	syscall
+	
+
+//Ex 1 - b 
+
+
+.data 
+	str1: .asciiz " enter un entier : "
+	str2: .asciiz " La sommme de ses chiffres est :"
+	buf : .space 20
+.text
+	main:
+		la $a0,str1
+		li $v0,4
+		syscall
+		la $a0,buf
+		li $a1,20
+		li $v0,8
+		syscall
+		li $t2,10
+		move $t0,$0
+		
+	debut:
+		lb $t1,0($a0)
+		beq $t1,$t2,fin
+		addi $t1,$t1,-48
+		add $t0,$t0,$t1
+		addi $a0,$a0,1
+		j debut
+	fin:
+		la $a0,str2
+		li $v0,4
+		syscall
+		move $a0,$t0
+		li $v0,1
+		syscall
+		li $v0,10
+		syscall
+				
+
+//Ex 2 TD 3 - 1
+
+.data
+	
+.text
+	main:
+		li $a0, 5
+		li $a1, 429496729
+		li $a2, 105
+		li $a3, 185
+		
+		jal exemple_feuille
+		move $a0,$v1
+		li $v0,1
+		syscall
+		
+		#exit
+		li $v0,10
+		syscall
+		
+	exemple_feuille:
+		addi $sp,$sp,-4
+		sw $ra, 0($sp)
+		
+		add $t0,$a0,$a1
+		add $t1,$a2,$a3
+		sub $v1,$t0,$t1
+		
+		lw $ra, 0($sp)
+		addi $sp,$sp,4
+		
+		jr $ra
+
+
+
+//Ex 2 TD3 - 2
+.data
+	strA: .asciiz "mouloud"
+	strB: .asciiz"elarram"
+.text
+	main:
+		la $a0,strA
+		la $a1,strB
+		jal  strcpy
+			
+			li $v0,4
+			syscall
+		#exit
+		li $v0,10
+		syscall
+	strcpy:
+		addi $sp,$sp,-8
+		sw $ra, 0($sp)
+		sw $a0, 4($sp)
+		
+		loop:
+			lb $t0,0($a1)
+			sb $t0,0($a0)
+			li $t1,0
+			beq $t0,$t1,fin
+			addi $a0,$a0,1
+			addi $a1,$a1,1
+			j loop
+		fin:
+			lw $ra,0($sp)
+			lw $a0,4($sp)
+			addi $sp,$sp,8
+			jr $ra
+			
+//Ex 2  TD3  - 3
+.data
+
+.text
+	main:
+	
+		li $a0,10
+		addi $t1,$a0,0
+		jal fact
+		li $v0,1
+		
+		syscall
+		#exit
+		li $v0,10
+		syscall
+	fact:
+		
+		add $sp,$sp,-4
+		sw $ra, 0($sp)
+		li $t0,1
+		addi $a0,$a0,-1
+		blt $a0,$t0,fin
+		
+		
+		mult $t1,$a0
+		mflo $t1
+		j fact
+		
+		fin: 
+			move $a0,$t1
+			lw $ra, 0($sp)
+			addi $sp,$sp,4
+			jr $ra
